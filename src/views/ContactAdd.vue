@@ -1,7 +1,7 @@
 <template>
-    <div class="page">
-        <h4>Thêm mới Liên hệ</h4>
-        <ContactForm :contact="contact" @submit:contact="addContact" />
+    <div v-if="contact" class="page">
+        <h4>Thêm liên lạc</h4>
+        <ContactForm :contact="contact" @submit:contact="addContact"  />
         <p>{{ message }}</p>
     </div>
 </template>
@@ -16,20 +16,19 @@ export default {
     },
     data() {
         return {
-            contact: { name: '', email: '', phone: '' }, // Khởi tạo một đối tượng liên hệ mới
+            contact: {},
             message: "",
         };
     },
     methods: {
         async addContact(data) {
             try {
-                await ContactService.create(data); // Gọi API để thêm liên hệ mới
-                alert('Liên hệ được thêm thành công.');
-                this.$router.push({ name: "contactbook" });
+                ContactService.create(data)
+                this.message = "Liên hệ đã được tạo thành công"
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
-        },
-    },
-};
+        }
+    }
+}
 </script>
